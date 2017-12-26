@@ -4,8 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const phaserModule = path.join(__dirname, '/node_modules/phaser-ce/');
 const phaser = path.join(phaserModule, 'build/custom/phaser-split.js'),
   pixi = path.join(phaserModule, 'build/custom/pixi.js'),
-  p2 = path.join(phaserModule, 'build/custom/p2.js');
-
+  p2 = path.join(phaserModule, 'build/custom/p2.js'),
+  config = path.join(__dirname + 'config');
 module.exports = {
   entry: './app/index.js',
   output: {
@@ -22,6 +22,7 @@ module.exports = {
   },
   resolve: {
     alias: {
+      'config': config,
       'phaser': phaser,
       'pixi': pixi,
       'p2': p2,
