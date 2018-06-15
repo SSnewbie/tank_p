@@ -5,43 +5,78 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="/static/style.css">
-  <link href="https://cdn.bootcss.com/meyer-reset/2.0/reset.css" rel="stylesheet">
   <title>坦克大战</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
 
+    .title {
+      text-align: center;
+      line-height: 30px;
+      background-color: #000;
+      color: #FFF;
+      border-bottom: 1px solid #233;
+    }
+
+    .content {
+      position: fixed;
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .sence {
+      flex: 800px 0 0;
+      height: 100%;
+    }
+
+    #editor {
+      flex: 1;
+      height: 100%;
+    }
   </style>
 </head>
 
 <body>
   <div class="app">
-    <h1 class="title">编程坦克大战</h1>
+    <div class="title">编程坦克大战</div>
     <div class="content">
-      <div id="scene" class="sence">
-
-      </div>
-      <div class="control">
-        <div class="tab">
-          <div class="tab-item">编辑坦克</div>
-          <div class="tab-item">查看日志</div>
-          <div class="tab-item">游戏控制</div>
-        </div>
-        <div class="content" id="code-editro">
-
-        </div>
-      </div>
+      <div class="sence"></div>
+      <div id="editor"></div>
+      <button style="background:#000000;color:#FFF" onclick="gamerun()"> 运行</button>
     </div>
-    <div class="footer">by ZzYu </div>
   </div>
-
   <script src="https://cdn.bootcss.com/ace/1.2.9/ace.js"></script>
   <script src="https://cdn.bootcss.com/ace/1.2.9/mode-javascript.js"></script>
   <script src="https://cdn.bootcss.com/ace/1.2.9/theme-monokai.js"></script>
-  <script src="/static/style.js"></script>
+
+
   <script>
+    const editor = ace.edit('editor');
+    editor.setFontSize(18);
+    editor.setTheme('ace/theme/monokai');
+    editor.session.setMode('ace/mode/javascript');
 
+    function gamerun() {
+      new TankGame.GameFactory((game) => {
+        const ZzYu = game.addTank('ZzYu')
+        ZzYu.run((ob) => {
+          if (ob.get('enemy').length > 0) {
+            ZzYu.do('原地左转')
+            ZzYu.do('前进')
+            ZzYu.do('开火')
+          } else if (ob.get('border') && ob.get('border')[0].d < 150) {
+            ZzYu.do('原地左转')
+          } else {
+            ZzYu.do('前进')
+          }
+        });
+        eval(editor.container.innerText);
+      });
+    }
   </script>
-
 </body>
 
 </html>

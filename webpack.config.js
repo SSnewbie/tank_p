@@ -1,33 +1,27 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const phaserModule = path.join(__dirname, '/node_modules/phaser-ce/');
-const phaser = path.join(phaserModule, 'build/custom/phaser-split.js'),
-  pixi = path.join(phaserModule, 'build/custom/pixi.js'),
-  p2 = path.join(phaserModule, 'build/custom/p2.js'),
-  config = path.join(__dirname + 'config');
+const build = {
+  assetsSubDirectory: 'static',
+  // assetsPublicPath: 'http://SSnewbie.coding.me/zzyu/',
+}
 module.exports = {
-  entry: './app/index.js',
+  entry: './src/index.ts',
   output: {
     filename: '[name].bundle.js',
     path: __dirname + '/build',
     library: 'TankGame',
+    // publicPath: build.assetsPublicPath
+    
   },
   module: {
-    rules: [{ test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'app') },
-      { test: /pixi\.js/, use: ['expose-loader?PIXI'] },
-      { test: /phaser-split\.js$/, use: ['expose-loader?Phaser'] },
-      { test: /p2\.js/, use: ['expose-loader?p2'] }
-    ]
+    loaders: [{
+      test: /\.ts$/,
+      loader: 'ts-loader'
+    }]
   },
   resolve: {
-    alias: {
-      'config': config,
-      'phaser': phaser,
-      'pixi': pixi,
-      'p2': p2,
-    },
-    extensions: ['.js']
+    extensions: ['.ts', '.js']
   },
   devServer: {
     contentBase: "./", //本地服务器所加载的页面所在的目录
