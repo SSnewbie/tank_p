@@ -61,18 +61,18 @@
 
     function gamerun() {
       new TankGame.GameFactory((game) => {
-        const ZzYu = game.addTank('ZzYu')
-        ZzYu.run((ob) => {
-          if (ob.get('enemy').length > 0) {
-            ZzYu.do('原地左转')
-            ZzYu.do('前进')
-            ZzYu.do('开火')
-          } else if (ob.get('border') && ob.get('border')[0].d < 150) {
-            ZzYu.do('原地左转')
-          } else {
-            ZzYu.do('前进')
-          }
-        });
+        // const ZzYu = game.addTank('ZzYu')
+        // ZzYu.run((ob) => {
+        //   if (ob.get('enemy').length > 0) {
+        //     ZzYu.do('原地左转')
+        //     ZzYu.do('前进')
+        //     ZzYu.do('开火')
+        //   } else if (ob.get('border') && ob.get('border')[0].d < 150) {
+        //     ZzYu.do('原地左转')
+        //   } else {
+        //     ZzYu.do('前进')
+        //   }
+        // });
         eval(editor.container.innerText);
       });
     }

@@ -2,6 +2,7 @@ import { Tank } from "./tank/Tank";
 import { Control } from "./Control";
 import { Render } from "./Render";
 import { ObserveHelper } from "./tank/ObserveHelper";
+
 export class UTank {
   private render: Render;
   private control: Control;
