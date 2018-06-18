@@ -32,20 +32,25 @@ export default class TankGame {
   }
 }
 
-// 加载资源
-export function GameFactory(cb: Function) {
-  if (!game) {
-    let loader = new loaders.Loader();
-    let app = new Application();
-    loader
-      .add("/static/img/tank.json")
-      .add("/static/img/shape.json")
-      .load(() => {
-        document.querySelector(".sence").appendChild(app.view);
-        let render = new Render(app, loader);
-        let control = new Control(render);
-        game = new TankGame(render, control);
-        cb(game);
-      });
+function deleteGame(game) {
+  if (game != null) {
+    document.querySelector(".sence").innerHTML = "";
   }
+}
+
+// 加载资源
+export function GameFactory(cb: Function, config: any) {
+  let loader = new loaders.Loader();
+  let app = new Application({ backgroundColor: 0x1b1c17 });
+  deleteGame(game);
+  loader
+    .add("/static/img/tank.json")
+    .add("/static/img/shape.json")
+    .load(() => {
+      document.querySelector(".sence").appendChild(app.view);
+      let render = new Render(app, loader);
+      let control = new Control(render);
+      game = new TankGame(render, control);
+      cb(game);
+    });
 }
