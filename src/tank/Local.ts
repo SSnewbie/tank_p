@@ -13,10 +13,12 @@ export class Local {
   }
   set x(x: number) {
     x = x > 800 ? 800 : x;
+    x = x < 0 ? 0 : x;
     this._x = x;
   }
   set y(y: number) {
     y = y > 600 ? 600 : y;
+    y = y < 0 ? 0 : y;
     this._y = y;
   }
 }

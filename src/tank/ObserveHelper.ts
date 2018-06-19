@@ -1,14 +1,14 @@
 export class ObserveHelper {
-	content: any[];
-	constructor() {
-		this.content = [];
-	}
+  content: any[];
+  constructor() {
+    this.content = [];
+  }
 
-	updated(content) {
-		this.content = content;
-	}
+  updated(content) {
+    this.content = content;
+  }
 
-	get(name) {
-		return this.content.filter(v => v.type === name);
-	}
+  get(name) {
+    return this.content.filter(v => v.type === name);
+  }
 }

@@ -33,6 +33,7 @@ export default class TankGame {
 }
 
 function deleteGame(game) {
+  game = null;
   if (game != null) {
     document.querySelector(".sence").innerHTML = "";
   }
