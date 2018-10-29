@@ -1,3 +1,6 @@
+/**
+ * 位置
+ */
 export class Local {
   private _x: number;
   private _y: number;

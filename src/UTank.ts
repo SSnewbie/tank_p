@@ -113,11 +113,13 @@ export class UTank {
       let operation = this.operationQueue.shift();
       if (operation) {
         try {
+          // 执行命令
           this.operations[operation]();
         } catch (e) {
           console.error("不存在的操作");
         }
       } else {
+        // 更新 observer
         observeHelper.updated(this.tank.getObserve());
         cb(observeHelper);
       }

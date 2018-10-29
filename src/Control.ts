@@ -5,6 +5,9 @@ import { Render } from "./Render";
 const S_WIDTH = 800;
 const S_HEIGHT = 600;
 
+/**
+ * 碰撞检测 和 刷新全局观测 信息
+ */
 export class Control {
   private render: Render;
   private ticker: PIXI.ticker.Ticker;

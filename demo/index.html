@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.bootcss.com/flat-ui/2.3.0/css/flat-ui.min.css" rel="stylesheet">
+  <title>坦克大战</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    .home {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      z-index: 100;
+    }
+
+    .top {
+      position: relative;
+      width: 100%;
+      height: 45%;
+      border-bottom: 5px solid #808768;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .top h1 {
+      position: absolute;
+      color: #808768;
+      left: 0px;
+      bottom: 50px;
+      width: 100%;
+      height: 50px;
+      font-size: 80px;
+      text-align: center;
+      font-family: "NSimSun";
+    }
+
+    .bottom {
+      padding: 50px 0;
+      margin: 0 auto;
+      width: 100%;
+      height: 60%;
+      background: rgba(255, 255, 255, 0.9)
+    }
+
+    .bottom .container {
+      width: 500px;
+    }
+
+    /** create-tank**/
+
+    #create-tank {
+      position: fixed;
+      display: flex;
+      height: 100%;
+      width: 100%;
+    }
+
+    #create-tank .sence-disable {
+      flex: 800px 0 0;
+      background: #1B1C17;
+    }
+
+    #create-tank .sence-disable canvas {
+      border-bottom: 1px solid #2B2C27;
+    }
+
+    #create-tank .editor-wrapper {
+      flex: 1;
+      display: flex;
+      position: relative;
+      flex-direction: column;
+      margin-right: -15px;
+      margin-bottom: -15px;
+    }
+
+    #create-tank .editor-wrapper h2 {
+      margin: 0;
+      text-align: center;
+      font-size: 20px;
+      line-height: 25px;
+      background: #2B2C27;
+      color: rgb(90, 102, 114);
+    }
+
+    #create-tank .editor-wrapper .control {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      margin: 10px 25px;
+      background: #2B2C27;
+      color: rgb(177, 181, 185);
+      text-align: center;
+    }
+
+    #editor {
+      height: 100%;
+    }
+
+    /** warehouse **/
+
+    #warehouse {
+      position: fixed;
+      display: flex;
+      height: 100%;
+      width: 100%;
+      background: #F9F9F9
+    }
+
+    #warehouse .container {
+      margin: 50px auto;
+      width: 900px;
+    }
+
+    #warehouse .tank-card {
+      position: relative;
+      background: #FEFEFE;
+      padding: 10px 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px #DDDDDD;
+      height: 180px;
+      margin-bottom: 20px;
+    }
+
+    #warehouse .tank-card:hover {
+      box-shadow: 0 0 20px #DDDDDD;
+      cursor: pointer;
+    }
+
+    #warehouse .tank-card h2 {
+      height: 60px;
+      line-height: 30px;
+      margin: 0;
+      color: #999999;
+      font-size: 18px;
+      text-align: center;
+      border-bottom: 1px solid #CCCCCC;
+    }
+
+    #warehouse .foot-bar {
+      display: flex;
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      height: 20px;
+      left: 0;
+    }
+
+    #warehouse .foot-bar div {
+      font-size: 15px;
+      color: #BBCCBB;
+      text-align: center;
+      flex: 1;
+    }
+
+    #warehouse .foot-bar div:hover {
+      color: #998899;
+    }
+
+    #warehouse .foot-bar .center {
+      border-width: 0 1px 0 1px;
+      border-style: solid;
+      border-color: #CCCCCC;
+    }
+
+    /**competition */
+
+    #competition {
+      position: fixed;
+      display: flex;
+      height: 100%;
+      width: 100%;
+    }
+
+    #competition .sence-disable {
+      flex: 800px 0 0;
+      background: #1B1C17;
+    }
+
+    #competition .sence-disable canvas {
+      border-bottom: 1px solid #2B2C27;
+    }
+
+    #competition .tank-list-wrapper {
+      flex: 1;
+      display: flex;
+      position: relative;
+      flex-direction: column;
+      margin-right: -15px;
+      margin-bottom: -15px;
+    }
+
+    #competition .tank-list-wrapper h2 {
+      margin: 0;
+      text-align: center;
+      font-size: 20px;
+      line-height: 25px;
+      background: rgb(243, 243, 243);
+      color: rgb(90, 102, 114);
+    }
+
+    #competition .tank-list-wrapper .control {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      margin: 10px 0px;
+      background: #2B2C27;
+      color: rgb(177, 181, 185);
+      text-align: center;
+    }
+
+    #competition .tank-item {
+      position: relative;
+      background: #FEFEFE;
+      padding: 10px 0;
+      border-radius: 5px;
+      box-shadow: 0 0 10px #DDDDDD;
+      margin-bottom: 20px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    #competition .tank-item:hover {
+      box-shadow: 0 0 20px #DDDDDD;
+      cursor: pointer;
+    }
+
+    #competition .tank-item h2 {
+      margin: 0;
+      color: #999999;
+      font-size: 15px;
+      text-align: center;
+      background: transparent;
+    }
+
+    #competition .tank-item .author {
+      text-align: center;
+      font-size: 12px;
+      color: #AAAAAA;
+      margin: 0 10px;
+    }
+
+    #competition .tank-item.active {
+      background: #cef0ba;
+    }
+
+    .tank-list {
+      position: relative;
+      height: 100%;
+    }
+
+    .tank-list .row {
+      position: absolute;
+      top: 0;
+      z-index: -1;
+    }
+  </style>
+  <style>
+    .hide .top {
+      transform: translateY(-100%);
+      transition: all 1s;
+    }
+
+    .hide .bottom {
+      transform: translateY(100%);
+      transition: all 1s;
+    }
+
+    .show .top {
+      transform: translateY(0);
+      transition: all 1s;
+    }
+
+    .show .bottom {
+      transform: translateY(0);
+      transition: all 1s;
+    }
+  </style>
+  <style>
+    #create-setting {
+      position: fixed;
+      z-index: 1000;
+      border-radius: 5px;
+      padding: 0 25px;
+      width: 300px;
+      left: 40%;
+      top: 10%;
+      transform: translate3d(-50%, -50%);
+      background: rgb(52, 57, 61);
+    }
+
+    #create-setting h2 {
+      margin: 10px;
+      padding-bottom: 10px;
+      line-height: 30px;
+      color: #999999;
+      font-size: 16px;
+      text-align: center;
+      border-bottom: 1px solid #999999;
+    }
+
+    #create-setting ul li {
+      display: flex;
+      margin: 20px 0;
+    }
+
+    #create-setting div {
+      flex: 2;
+      height: 25px;
+      font-size: 16px;
+      line-height: 25px;
+      color: rgb(189, 189, 189);
+    }
+
+    #create-setting .btn {
+      height: 35px;
+      line-height: 35px;
+      padding: 0;
+      background: rgb(81, 81, 81);
+
+    }
+
+    #create-setting .btn:hover {
+      color: #DDDDDD;
+      border: 1px solid rgb(145, 145, 145);
+
+    }
+
+    #create-setting input {
+      flex: 4;
+      margin: 0;
+      border: none;
+      height: 25px;
+      line-height: 25px;
+      color: rgb(255, 255, 255);
+      background: rgb(81, 91, 99);
+      text-align: center;
+    }
+
+    input::placeholder {
+      font-size: 15px;
+      color: rgb(145, 145, 145);
+    }
+
+    #tank-sence {
+      position: fixed;
+      display: flex;
+      top: 50%;
+      left: 50%;
+      transform: translate3d(-50%, -50%, 0);
+      z-index: 1001;
+      width: 800px;
+      height: 630px;
+      background: rgb(66, 66, 66);
+      border-radius: 8px;
+      overflow: hidden;
+      padding-top: 30px;
+    }
+
+
+
+    #tank-sence .title-bar {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 30px;
+      z-index: 1002;
+      background: rgb(44, 44, 44);
+    }
+
+    .title-bar .close {
+      position: absolute;
+      top: 8px;
+      right: 20px;
+      width: 15px;
+      height: 15px !important;
+      border-radius: 50%;
+      background: rgb(255, 96, 131);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <div class="home">
+      <div class="top">
+        <h1> 编程坦克大战 </h1>
+      </div>
+      <div class="bottom">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="btn btn-block btn-primary create-hook"> 创造坦克 </div>
+            </div>
+            <div class="col-md-4">
+              <div class="btn btn-block btn-primary warehouse-hook"> 坦克仓库 </div>
+            </div>
+            <div class="col-md-4">
+              <div class="btn btn-block btn-primary competition-hook"> 参加比赛 </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="display: none" id="create-tank">
+      <div class="sence-disable"></div>
+      <div class="editor-wrapper">
+        <h2> CODE </h2>
+        <div id="editor"></div>
+        <div class="control">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="item btn start-hook"> 开始测试 </div>
+              </div>
+              <div class="col-md-3">
+                <div class="item btn submit-hook"> 提交代码 </div>
+              </div>
+              <div class="col-md-3">
+                <div class="item btn doc-hook">
+                  <a target="_blank" href="https://github.com/SSnewbie/nebulas-tanks">查看文档</a>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="item btn exit-hook"> 退出编辑 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div style="display: none" id="warehouse">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10">
+            <input class="account" style="height: 30px" placeholder="请输入仓库地址：" type="text">
+            <button onclick="search()" style="height: 30px;line-height: 30px;padding: 0 20px" class="btn btn-primary">
+              search </button>
+          </div>
+          <div class="col-md-2">
+            <button onclick="warehouseClose()" style="height: 30px;line-height: 30px;padding: 0 20px" class="btn btn-inverse">
+              关闭 </button>
+          </div>
+        </div>
+        <hr />
+
+        <div class="row content">
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <div id="competition">
+      <div class="sence-disable"></div>
+      <div class="tank-list-wrapper">
+        <h2> tank 列表 </h2>
+        <div class="tank-list container">
+        </div>
+        <div class="control">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="item btn start-hook"> 开始对战 </div>
+              </div>
+              <div class="col-md-4">
+                <div class="item btn submit-hook"> 重置对战 </div>
+              </div>
+              <div class="col-md-4">
+                <div class="item btn exit-hook"> 退出编辑 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+  <div style="display: none" id="create-setting">
+    <div class="title-bar">
+      <div class="close"></div>
+    </div>
+    <h2>
+      创建坦克
+    </h2>
+    <ul>
+      <li>
+        <input placeholder="坦克名" class="tank-name" type="text">
+      </li>
+      <!-- <li>
+              <div for="">坦克名</div>
+              <input type="text">
+            </li> -->
+
+      <li>
+        <div class="btn add-hook"> 确定 </div>
+      </li>
+    </ul>
+
+  </div>
+  <div style="display: none" id="tank-sence">
+    <div class="title-bar">
+      <div class="close"></div>
+    </div>
+    <div class="sence-wrapper">
+
+    </div>
+  </div>
+  <script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/flat-ui/2.3.0/js/flat-ui.min.js"></script>
+  <script src="https://cdn.bootcss.com/ace/1.2.9/ace.js"></script>
+  <script src="https://cdn.bootcss.com/ace/1.2.9/mode-javascript.js"></script>
+  <script src="https://cdn.bootcss.com/ace/1.2.9/theme-monokai.js"></script>
+  <script src="https://cdn.bootcss.com/jquery-mousewheel/3.1.13/jquery.mousewheel.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/nebulas@0.5.2/dist/nebulas.js"></script> -->
+  <!-- <script src="/lib/nebPay.js"></script> -->
+  <script src="/lib/flat-ui.js"></script>
+  <script src="/lib/main.bundle.js"></script>
+  <script>
+    function Base64() {
+
+      // private property  
+      _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+      // public method for encoding  
+      this.encode = function (input) {
+        var output = "";
+        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+        var i = 0;
+        input = _utf8_encode(input);
+        while (i < input.length) {
+          chr1 = input.charCodeAt(i++);
+          chr2 = input.charCodeAt(i++);
+          chr3 = input.charCodeAt(i++);
+          enc1 = chr1 >> 2;
+          enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+          enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+          enc4 = chr3 & 63;
+          if (isNaN(chr2)) {
+            enc3 = enc4 = 64;
+          } else if (isNaN(chr3)) {
+            enc4 = 64;
+          }
+          output = output +
+            _keyStr.charAt(enc1) + _keyStr.charAt(enc2) +
+            _keyStr.charAt(enc3) + _keyStr.charAt(enc4);
+        }
+        return output;
+      }
+
+      // public method for decoding  
+      this.decode = function (input) {
+        var output = "";
+        var chr1, chr2, chr3;
+        var enc1, enc2, enc3, enc4;
+        var i = 0;
+        input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+        while (i < input.length) {
+          enc1 = _keyStr.indexOf(input.charAt(i++));
+          enc2 = _keyStr.indexOf(input.charAt(i++));
+          enc3 = _keyStr.indexOf(input.charAt(i++));
+          enc4 = _keyStr.indexOf(input.charAt(i++));
+          chr1 = (enc1 << 2) | (enc2 >> 4);
+          chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+          chr3 = ((enc3 & 3) << 6) | enc4;
+          output = output + String.fromCharCode(chr1);
+          if (enc3 != 64) {
+            output = output + String.fromCharCode(chr2);
+          }
+          if (enc4 != 64) {
+            output = output + String.fromCharCode(chr3);
+          }
+        }
+        output = _utf8_decode(output);
+        return output;
+      }
+
+      // private method for UTF-8 encoding  
+      _utf8_encode = function (string) {
+        string = string.replace(/\r\n/g, "\n");
+        var utftext = "";
+        for (var n = 0; n < string.length; n++) {
+          var c = string.charCodeAt(n);
+          if (c < 128) {
+            utftext += String.fromCharCode(c);
+          } else if ((c > 127) && (c < 2048)) {
+            utftext += String.fromCharCode((c >> 6) | 192);
+            utftext += String.fromCharCode((c & 63) | 128);
+          } else {
+            utftext += String.fromCharCode((c >> 12) | 224);
+            utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+            utftext += String.fromCharCode((c & 63) | 128);
+          }
+
+        }
+        return utftext;
+      }
+
+      // private method for UTF-8 decoding  
+      _utf8_decode = function (utftext) {
+        var string = "";
+        var i = 0;
+        var c = c1 = c2 = 0;
+        while (i < utftext.length) {
+          c = utftext.charCodeAt(i);
+          if (c < 128) {
+            string += String.fromCharCode(c);
+            i++;
+          } else if ((c > 191) && (c < 224)) {
+            c2 = utftext.charCodeAt(i + 1);
+            string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+            i += 2;
+          } else {
+            c2 = utftext.charCodeAt(i + 1);
+            c3 = utftext.charCodeAt(i + 2);
+            string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+            i += 3;
+          }
+        }
+        return string;
+      }
+    }  
+  </script>
+
+  <script>
+    // let $wrapper = $('.tank-list-wrapper .container');
+    // let $content = $wrapper.find('.row');
+    // let wrapHeight = $wrapper.height();
+    // let contentHeight = $content.height();
+    // $(document).mousewheel(function (event, delta) {
+    //   let top = $content.position().top;
+    //   if (delta > 0) {
+    //     let number = top + 50;
+    //     $content.css('top', number > 0 ? 0 : number);
+    //   } else {
+    //     if (contentHeight < wrapHeight) return;
+    //     let number = top - 50;
+    //     $content.css('top', top + height < 500 ? -height + 500 : number);
+    //   }
+    //   return false;
+    // });
+
+    // function scrollUpdate() {
+    //   $wrapper = $('.tank-list-wrapper .container');
+    //   $content = $wrapper.find('row');
+    //   let wrapHeight = $wrapper.height();
+    //   let rawHeight = $wrapper.find('row').height();
+    // }
+  </script>
+
+  <script>
+    // const dappContactAddress = "n1mBkYPZJUenaUuUZFSMBSF1wQqKRKmgWoR";
+    // const nebulas = require('nebulas'), Account = nebulas.Account, neb = new nebulas.Neb();
+    // let accountAddress = null;
+    // const base64 = new Base64();
+    // neb.setRequest(new nebulas.HttpRequest('https://testnet.nebulas.io'));
+    // let NebPay = require('nebpay');
+    // let nebPay = new NebPay();
+    // let game = null;
+    // let serialNumber;
+    let tankName = null;
+    let tankCode = null;
+
+  </script>
+  <!-- <script>
+    /** 保存坦克到链 */
+    function save() {
+      let to = dappContactAddress;
+      let value = "0";
+      let tankCode = editor.container.innerText;
+      let callFunction = "save";
+      let callArgs = `["${tankName}","${base64.encode(tankCode)}"]`
+      let number = nebPay.call(to, value, callFunction, callArgs, {
+        listener: function (res) {
+          console.log("==>", res);
+        }
+      })
+      // console.log(number)
+      // serialNumberAutoQuery.addSerialNumber(number);
+    }
+    /** 查询用户的坦克 */
+    function queryByAccount(cb) {
+      //n1cogs1qv7XLxWTH3aemTBbtTigva56V9RE
+      let from = $('.account').val();
+      if (!Account.isValidAddress(from)) {
+        return alert('非法的地址');
+      }
+      let nonce = 8;
+      let value = "0";
+      let gas_price = "1000000";
+      let gas_limit = "200000";
+      let callFunction = "queryByAccount";
+      let callArgs = `["${from}"]`;
+      let contract = {
+        "function": callFunction,
+        "args": callArgs
+      }
+      neb.api.call(from, dappContactAddress, value, nonce, gas_price, gas_limit, contract).then((resp) => {
+        let result = resp.result;
+        if (result != 'null') {
+          var data = JSON.parse(result);
+          cb(data);
+        }
+      })
+    }
+
+    /** 查询战场坦克*/
+    function queryAllCompetition(cb) {
+      let account = 'n1WBs4tPVjqWjBMzfXYAx3i9XkDSWmPPpnd';
+      let nonce = 10;
+      let value = "0";
+      let gas_price = "1000000";
+      let gas_limit = "200000";
+      let callFunction = "queryAllCompetition";
+      let callArgs = `[]`;
+      let contract = {
+        "function": callFunction,
+        "args": callArgs
+      }
+      neb.api.call(account, dappContactAddress, value, nonce, gas_price, gas_limit, contract).then((resp) => {
+        let result = resp.result;
+        if (result != null) {
+          try {
+            var data = JSON.parse(result);
+            cb(data);
+          } catch (error) {
+            console.error(error);
+            alert('数据获取异常！')
+          }
+        }
+      })
+    }
+
+    /** 删除坦克 */
+    function deleteTank(name) {
+      let to = dappContactAddress;
+      let value = "0";
+      let tankCode = editor.getValue();
+      let callFunction = "deleteTank";
+      let callArgs = `["${tankName}"]`
+      nebPay.call(to, value, callFunction, callArgs, {
+        listener: function (res) {
+          console.log(res);
+        }
+      })
+    }
+
+    function search() {
+      let html = "";
+      queryByAccount((data) => {
+        data.forEach((item) => {
+          let name = item.name;
+          let code = base64.decode(item.code);
+          html += `
+            <div class="col-md-3">
+              <div class="tank-card" data-code="${item.code}">
+                <h2>${name}</h2>
+                <div class="foot-bar">
+                  <div class="left">编辑</div>
+                  <div class="center">参加对战</div>
+                  <div class="right">删除</div>
+                </div>
+              </div>
+            </div>`
+        })
+        $('#warehouse').find('.row.content').html(html);
+      });
+    }
+
+  </script> -->
+  <script>
+    /** 隐藏主页*/
+    function homeHide() {
+      $('.home').removeClass('show').addClass('hide');
+      setTimeout(() => {
+        $('.home').attr('style', 'display:none');
+      }, 1000)
+    }
+
+    /** 显示主页*/
+    function homeShow() {
+      $('.home').attr('style', '')
+      $('.home').removeClass('hide').addClass('show');
+    }
+
+    function senceShow() {
+      $('#tank-sence').show();
+      $('#tank-sence .sence-wrapper').html('<div class="sence"></div>');
+    }
+
+    function sencnHide() {
+      $('#tank-sence').hide();
+      $('#tank-sence .sence-wrapper').html('');
+    }
+
+    function tankRun(tankCode) {
+      senceShow();
+      game = new TankGame.GameFactory((game) => {
+        const tank = game.addTank('tank')
+        tank.run((ob) => {
+          eval(tankCode);
+        });
+      })
+    }
+
+    function warehouseClose() {
+      $('#warehouse').hide();
+      homeShow();
+    }
+
+  </script>
+  <script>
+    'use strice'
+    /** 打开编辑界面 */
+    $('.create-hook').on('click', function () {
+      homeHide();
+      $('#create-tank').show();
+    })
+
+    /** 退出编辑界面 */
+    $('.exit-hook').on('click', function () {
+      homeShow();
+      $('#create-tank').hide();
+      $('.sence-disable').removeClass('sence');
+    })
+
+    /** 打开仓库界面 */
+    $('.warehouse-hook').on('click', function () {
+      homeHide();
+      $('#warehouse').show();
+    })
+
+    /** 比赛界面*/
+    $('.competition-hook').on('click', function () {
+      homeHide();
+      queryAllCompetition(function (data) {
+        console.log(data);
+      })
+    })
+
+    /** 运行代码 **/
+    $('#warehouse').delegate('.center', 'click', function () {
+      let code = $(this).parents().parents().data('code');
+      let name = $(this).parents().parents().find('h2').text();
+      tankName = name;
+      tankCode = base64.decode(code);
+      tankRun(tankCode);
+    })
+
+    /** 删除坦克 */
+    $('#warehouse').delegate('.right', 'click', function () {
+      let name = $(this).parents().parents().find('h2').text();
+      deleteTank(name);
+    })
+
+    /** 编辑坦克 */
+    $('#warehouse').delegate('.left', 'click', function () {
+      let code = $(this).parents().parents().data('code');
+      let name = $(this).parents().parents().find('h2').text();
+      tankName = name;
+      tankCode = base64.decode(code);
+      $('#warehouse').hide();
+      $('#create-tank').show();
+      editor.setValue(tankCode);
+    })
+
+    /** 运行测试*/
+    $('.start-hook').on('click', function () {
+      $('.sence-disable').addClass('sence');
+      let code = editor.container.innerText;
+
+
+      game = new TankGame.GameFactory((game) => {
+        const me = game.addTank('me')
+        me.run((ob) => {
+          if (ob.get('enemy').length > 0) {
+            me.do('开火');
+          }
+          if (ob.get('border') && ob.get('border')[0].d < 50) {
+            me.do('原地左转');
+          } else if (ob.get('border') && ob.get('border')[0].d < 300) {
+            if (Math.random() > 0.5)
+              me.do('左转');
+            else
+              me.do('原地左转');
+          } else {
+            if (Math.random() > 0.3)
+              me.do("前进");
+            else
+              me.do('左转');
+          }
+        });
+        const tank = game.addTank('tank')
+        tank.run((ob) => {
+          try {
+            eval(code);
+            TEST = true;
+          } catch (error) {
+            TEST = false;
+          }
+        });
+      })
+    })
+
+    /** 提交代码 */
+    $('.submit-hook').on('click', function () {
+      if (tankName == null) {
+        $('#create-setting').show();
+      } else {
+        save();
+      }
+    })
+
+    /** 添加坦克 */
+    $('.add-hook').on('click', function () {
+      // TODOD
+      $('#create-setting').hide();
+      tankName = $('.tank-name').val();
+      save();
+    })
+
+    /** 关闭 */
+    $('#create-setting .close').on('click', function () {
+      $('#create-setting').hide();
+    })
+
+    /**关闭 */
+    $('#tank-sence .close').on('click', function () {
+      sencnHide();
+    })
+  </script>
+
+
+
+  <script>
+    const editor = ace.edit('editor');
+    editor.setFontSize(18);
+    editor.setTheme('ace/theme/monokai');
+    editor.session.setMode('ace/mode/javascript');
+  </script>
+  <!-- <script type="text/javascript" src="/lib/tank.js"></script> -->
+</body>
+
+</html>

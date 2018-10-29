@@ -1,15 +1,8 @@
-import {
-  Application,
-  autoDetectRenderer,
-  Container,
-  Sprite,
-  Graphics,
-  loaders,
-  Rectangle
-} from "pixi.js";
-import { UTank } from "./UTank";
-import { Render } from "./Render";
-import { Control } from "./Control";
+import {Application, autoDetectRenderer, Container, Graphics, loaders, Rectangle, Sprite} from 'pixi.js';
+
+import {Control} from './Control';
+import {Render} from './Render';
+import {UTank} from './UTank';
 
 var game = null;
 
@@ -35,23 +28,20 @@ export default class TankGame {
 function deleteGame(game) {
   game = null;
   if (game != null) {
-    document.querySelector(".sence").innerHTML = "";
+    document.querySelector('.sence').innerHTML = '';
   }
 }
 
 // 加载资源
 export function GameFactory(cb: Function, config: any) {
   let loader = new loaders.Loader();
-  let app = new Application({ backgroundColor: 0x1b1c17 });
+  let app = new Application({backgroundColor: 0x1b1c17});
   deleteGame(game);
-  loader
-    .add("/static/img/tank.json")
-    .add("/static/img/shape.json")
-    .load(() => {
-      document.querySelector(".sence").appendChild(app.view);
-      let render = new Render(app, loader);
-      let control = new Control(render);
-      game = new TankGame(render, control);
-      cb(game);
-    });
+  loader.add('/static/img/tank.json').add('/static/img/shape.json').load(() => {
+    document.querySelector('.sence').appendChild(app.view);
+    let render = new Render(app, loader);
+    let control = new Control(render);
+    game = new TankGame(render, control);
+    cb(game);
+  });
 }
